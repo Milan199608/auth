@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 //import ReactDOM from 'react-dom';
 import {useFormik} from 'formik';
 
@@ -8,9 +8,7 @@ const validateEmployee = empData => {
 
   if (!empData.Name) {
     errors.Name = 'Please Enter Employee Name';
-  } else if (empData.Name.length > 20) {
-    errors.Name = 'Name cannot exceed 20 characters';
-  }
+  } 
 
 
   if (!empData.EmailId) {
@@ -46,7 +44,18 @@ const validateEmployee = empData => {
 
   return errors;
 };
-const EmployeeComponent=()=>{
+const Registration=()=>{
+  /*  const [user, setUser] = useState({
+    Name:'',
+      EmailId:'',
+      Password:'',
+      Cpassword:'',
+      Address:'',
+      Gender:'',
+      dob:'', 
+      Tags: ''
+   }) */
+
 
   const formik=useFormik({
     initialValues:{
@@ -60,13 +69,23 @@ const EmployeeComponent=()=>{
       dob:'',
       Tags: '',
 
-
     },
+ 
     validate:validateEmployee,
     onSubmit:values=>{
-      alert(JSON.stringify(values));
+      console.log(values);
+    
     }
+
   });
+ /*  let name,value;
+  const handleChange=(e)=>{
+    console.log(e)
+    name=e.target.name;
+    value=e.target.value;
+   
+
+  } */
 
   return (
     <div>
@@ -93,9 +112,10 @@ const EmployeeComponent=()=>{
            <label htmlFor="Password"> Password </label>
            <input type="text" name="Password" id="Password" value={formik.values.Password}
                   onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
-                  {formik.touched.Password && formik.errors.Password ? <span style={{color:'red'}}>{formik.errors.Password}</span> : null}
-                 
+                
          </p>
+         {formik.touched.Password && formik.errors.Password ? <span style={{color:'red'}}>{formik.errors.Password}</span> : null}
+
          <p>
            <label htmlFor="Cpassword">Confirm Password </label>
            <input type="text" name="Cpassword" id="Cpassword" value={formik.values.Cpassword}
@@ -188,4 +208,4 @@ const EmployeeComponent=()=>{
     </div> 
   )
 }
-export default EmployeeComponent;
+export default Registration;

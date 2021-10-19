@@ -1,9 +1,9 @@
 
 import React from "react";
-import Registration from './Registration';
+
 import Login from './Login';
 import Home from "./Home";
-
+import Registration from "./Registration"
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import './App.css';
 
@@ -13,7 +13,7 @@ function App() {
     <div className="App">
       <>
         <h1>Authentication in React</h1>
-
+      
         <BrowserRouter>
           <p>
             <Link to="/registration">Registration</Link>
@@ -29,7 +29,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/Home" component={Home} />
           </Switch>
-        </BrowserRouter>
+        </BrowserRouter> 
       </>
 
     </div>

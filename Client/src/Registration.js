@@ -87,6 +87,22 @@ const Registration=()=>{
 
   } */
 
+ /*  const registerValue=(e)=>{
+    e.preventDefault();
+    const url = 'http://localhost/api/products'
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        {Name,EmailId,Password,Cpassword,Address,Dob,Gender,Hobbies}= user;
+        body: JSON.stringify({ Name,Email,Password,Cpassword,Address,Dob,Gender,Hobbies })
+    };
+    fetch(url, requestOptions)
+        .then(response => console.log('Submitted successfully'))
+        .catch(error => console.log('Form submit error', error))
+  };
+ */
+  
+
   return (
     <div>
       <h2>New Employee Form...</h2>
@@ -201,9 +217,7 @@ const Registration=()=>{
       </label>
       {formik.touched.Tags && formik.errors.Tags ? <span style={{color:'red'}}>{formik.errors.Tags}</span> : null} 
 </p>
-
-
-         <button type="submit">Create</button>
+         <button type="submit" onClick={registerValue()}>Create</button>
   </form>
     </div> 
   )

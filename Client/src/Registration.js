@@ -1,7 +1,9 @@
 import React,{useState} from 'react';
 //import ReactDOM from 'react-dom';
 import {useFormik} from 'formik';
-
+import axios from "axios";
+import * as configSettings from "./Config/index";
+const {API_PROTOCOL: API_PROTOCOL, API_URL: API_URL, API_PORT: API_PORT} = configSettings;
 
 const validateEmployee = empData => {
   const errors = {};
@@ -37,29 +39,20 @@ const validateEmployee = empData => {
   if (!empData.dob) {
     errors.dob= 'Please select the date of birth';
   }
-  if (!empData.Tags) {
-    errors.Tags= 'Please  Select your hobbies';
+  if (!empData.hobbies) {
+    errors.hobbies= 'Please  Select your hobbies';
   }
 
 
   return errors;
 };
 const Registration=()=>{
-  /*  const [user, setUser] = useState({
-    Name:'',
-      EmailId:'',
-      Password:'',
-      Cpassword:'',
-      Address:'',
-      Gender:'',
-      dob:'', 
-      Tags: ''
-   }) */
-
-
+   
+  
+    
   const formik=useFormik({
-    initialValues:{
 
+  initialValues:{
       Name:'',
       EmailId:'',
       Password:'',
@@ -67,17 +60,76 @@ const Registration=()=>{
       Address:'',
       Gender:'',
       dob:'',
-      Tags: '',
-
+      hobbies: ''
     },
  
     validate:validateEmployee,
     onSubmit:values=>{
-      console.log(values);
+      alert(JSON.stringify(values));
     
     }
 
   });
+ /*  const [user, setUser] = useState({
+    Name:'',
+    EmailId:'',
+    Password:'',
+    Cpassword:'',
+    Address:'',
+    Gender:'',
+    dob:'',
+    hobbies: ''
+  },)
+  
+
+let name ,value;
+const postData=async(e)=>{
+  
+  e.preventDefault()
+  name=e.target.Name;
+  value=e.target.Value;
+  setUser({...user,[name]:value})
+
+  const {Name,
+  EmailId,
+  Password,
+  Cpassword,
+  Address,
+  Gender,
+  dob,
+  hobbies}=user
+  const res=await fetch('/api/user',{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+    },
+    body:JSON.stringify({
+   Name,
+  EmailId,
+  Password,
+  Cpassword,
+  Address,
+  Gender,
+  dob,
+  hobbies
+
+    })
+  }); */
+ /*  const data = await res.json();
+  if(data.status === 422 || !data){
+    alert("invalid registration");
+  }
+  else{
+    alert("registration done")
+  } */
+
+
+
+
+
+ 
+ 
+
  /*  let name,value;
   const handleChange=(e)=>{
     console.log(e)
@@ -101,6 +153,30 @@ const Registration=()=>{
         .catch(error => console.log('Form submit error', error))
   };
  */
+
+  //USING AXIOS
+
+
+ 
+const handleLoginForm=async(e)=>{
+  e.preventDefault();
+
+      const REQUEST_ENDPOINT="api/user"
+       const myHeaders = new Headers();
+       myHeaders.append("content-type", `application/json`);
+      const request_url = `${API_PROTOCOL}://${API_URL}${API_PORT ? `:${API_PORT}` : ""}/${REQUEST_ENDPOINT}`;
+   
+      const config = {
+        method: "POST",
+        
+        
+        url: request_url,
+      };
+    const registrationResponce = await axios(config);
+    alert({registrationResponce});
+
+}
+   
   
 
   return (
@@ -135,7 +211,7 @@ const Registration=()=>{
          <p>
            <label htmlFor="Cpassword">Confirm Password </label>
            <input type="text" name="Cpassword" id="Cpassword" value={formik.values.Cpassword}
-                  onChange={formik.handleChange} onBlur={formik.handleBlur}></input>
+                  onChange={formik.handleChange} ></input>
                   {formik.touched.Cpassword && formik.errors.Cpassword ? <span style={{color:'red'}}>{formik.errors.Cpassword}</span> : null}     
          </p>
          <p>
@@ -148,7 +224,7 @@ const Registration=()=>{
            <label htmlFor="gender">please select your gender </label>
            <label>
         <input type='radio' name='Gender' id="Gender"
-          onChange={formik.handleChange}
+          onChange={formik.handleChange} onBlur={formik.handleBlur}
           value='Male'
           
         />
@@ -156,14 +232,14 @@ const Registration=()=>{
       </label> 
       <label >
         <input type='radio' name='Gender' id="Gender"
-          onChange={formik.handleChange}      
+          onChange={formik.handleChange} onBlur={formik.handleBlur}     
           value='Female'
            />
         Female
       </label> 
       <label>
         <input type='radio' name='Gender' id="Gender"
-          onChange={formik.handleChange}
+          onChange={formik.handleChange} onBlur={formik.handleBlur}
           value='Other'
        />
       Other
@@ -176,7 +252,7 @@ const Registration=()=>{
          id="dob"
          name="dob"
          type="date"
-         onChange={formik.handleChange}
+         onChange={formik.handleChange} onBlur={formik.handleBlur}
          value={formik.values.dob}
       />
 
@@ -185,8 +261,8 @@ const Registration=()=>{
 <p>
 <label htmlFor="Tags">Hobbies</label>
           <label>
-          <input type='checkbox' name='tags' id="tags"
-          onChange={formik.handleChange}
+          <input type='checkbox' name='hobbies' id="hobbies"
+          onChange={formik.handleChange} onBlur={formik.handleBlur}
           value='Cricket'
        />
     
@@ -195,29 +271,29 @@ const Registration=()=>{
       </label>
         
       <label>
-          <input type='checkbox' name='Tags' id="Tags"
-          onChange={formik.handleChange}
+          <input type='checkbox' name='hobbies' id="hobbies"
+          onChange={formik.handleChange} onBlur={formik.handleBlur}
           value='Football'
        />
           Football
       </label>
       <label>
-          <input type='checkbox' name='Tags' id="Tags"
-          onChange={formik.handleChange}
+          <input type='checkbox' name='hobbies' id="hobbies"
+          onChange={formik.handleChange} onBlur={formik.handleBlur}
           value='Tenis'
        />
           Tenis
       </label>
       <label>
-          <input type='checkbox' name='Tags' id="Tags"
-          onChange={formik.handleChange}
+          <input type='checkbox' name='hobbies' id="hobbies"
+          onChange={formik.handleChange} onBlur={formik.handleBlur}
           value='Golf'
        />
           Golf
       </label>
-      {formik.touched.Tags && formik.errors.Tags ? <span style={{color:'red'}}>{formik.errors.Tags}</span> : null} 
+      {formik.touched.hobbies && formik.errors.hobbies ? <span style={{color:'red'}}>{formik.errors.hobbies}</span> : null} 
 </p>
-         <button type="submit" onClick={registerValue()}>Create</button>
+         <button type="submit" onClick={handleLoginForm}  >Create</button>
   </form>
     </div> 
   )

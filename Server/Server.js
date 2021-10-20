@@ -2,9 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mysql = require('mysql');
- 
+const cors = require('cors');
+
 // parse application/json
 app.use(bodyParser.json());
+app.use(cors())
  
 //create database connection
 const conn = mysql.createConnection({
@@ -21,36 +23,36 @@ conn.connect((err) =>{
 });
  
 //show all products
-app.get('/api/products',(req, res) => {
-  let sql = "SELECT * FROM product";
+app.get('/api/user',(req, res) => {
+  let sql = "SELECT * FROM user";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
 });
  
-//show single product
-app.get('/api/products/:id',(req, res) => {
-  let sql = "SELECT * FROM product WHERE product_id="+req.params.id;
+ //show single product
+app.get('/api/user/:id',(req, res) => {
+  let sql = "SELECT * FROM user WHERE user_id="+req.params.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
 });
  
-//add new product
-app.post('/api/products',(req, res) => {
-  let data = {product_name: req.body.product_name, product_price: req.body.product_price};
-  let sql = "INSERT INTO product SET ?";
+ //add new product
+app.post('/api/user',(req, res) => {
+  let data = {user_name: req.body.user_name, user_email: req.body.user_email,user_password:req.body.user_password,user_cpassword:req.body.user_cpassword,user_add:req.body.user_add,user_gender:req.body.user_gender,user_dob:req.body.user_dob,user_hobbies:req.body.user_hobbies};
+  let sql = "INSERT INTO user SET ?";
   let query = conn.query(sql, data,(err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
-});
+}); 
  
-//update product
-app.put('/api/products/:id',(req, res) => {
-  let sql = "UPDATE product SET product_name='"+req.body.product_name+"', product_price='"+req.body.product_price+"' WHERE product_id="+req.params.id;
+ //update product
+app.put('/api/user/:id',(req, res) => {
+  let sql = "UPDATE user SET user_name='"+req.body.user_name+"', user_email='"+req.body.user_email+"', user_password='"+req.body.user_password+"', user_cpassword='"+req.body.user_cpassword+"', user_add='"+req.body.user_add+"', user_gender='"+req.body.user_gender+"', user_dob='"+req.body.user_dob+"', user_hobbies='"+req.body.user_hobbies+"' WHERE user_id="+req.params.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -58,15 +60,15 @@ app.put('/api/products/:id',(req, res) => {
 });
  
 //Delete product
-app.delete('/api/products/:id',(req, res) => {
-  let sql = "DELETE FROM product WHERE product_id="+req.params.id+"";
+app.delete('/api/user/:id',(req, res) => {
+  let sql = "DELETE FROM user WHERE user_id="+req.params.id+"";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
       res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
-});
+}); 
  
 //Server listening
-app.listen(3000,() =>{
-  console.log('Server started on port 3000...');
+app.listen(5000,() =>{
+  console.log('Server started on port 5000...');
 });
